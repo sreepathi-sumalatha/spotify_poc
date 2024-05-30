@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'ui/screens/home_screen.dart';
+import 'ui/screens/albums_home_screen.dart';
+// ignore_for_file: prefer_const_constructors
 
 void main() {
   runApp(const MyApp());
@@ -12,11 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Spotify App',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const HomeScreen());
+        home: AlbumList());
   }
 }
