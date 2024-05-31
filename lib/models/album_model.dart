@@ -1,128 +1,5 @@
-// // ignore_for_file: public_member_api_docs, sort_constructors_first
-// // To parse this JSON data, do
-// //
-// //     final album = albumFromJson(jsonString);
-
-// import 'dart:convert';
-
-// Album albumFromJson(String str) => Album.fromJson(json.decode(str));
-
-// // String albumToJson(Album data) => json.encode(data.toJson());
-
-// class Album {
-//   String albumType;
-//   int totalTracks;
-//   List<String> availableMarkets;
-
-//   String href;
-//   String id;
-//   List<Image> images;
-//   String name;
-//   DateTime releaseDate;
-//   String releaseDatePrecision;
-//   String type;
-//   String uri;
-//   List<Artist> artists;
-
-//   List<dynamic> genres;
-//   String label;
-//   int popularity;
-
-//   Album({
-//     required this.albumType,
-//     required this.totalTracks,
-//     required this.availableMarkets,
-//     required this.href,
-//     required this.id,
-//     required this.images,
-//     required this.name,
-//     required this.releaseDate,
-//     required this.releaseDatePrecision,
-//     required this.type,
-//     required this.uri,
-//     required this.artists,
-//     required this.genres,
-//     required this.label,
-//     required this.popularity,
-//   });
-
-//   factory Album.fromJson(Map<String, dynamic> json) => Album(
-//         albumType: json["album_type"],
-//         totalTracks: json["total_tracks"],
-//         availableMarkets:
-//             List<String>.from(json["available_markets"].map((x) => x)),
-//         href: json["href"],
-//         id: json["id"],
-//         images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
-//         name: json["name"],
-//         releaseDate: DateTime.parse(json["release_date"]),
-//         releaseDatePrecision: json["release_date_precision"],
-//         type: json["type"],
-//         uri: json["uri"],
-//         artists:
-//             List<Artist>.from(json["artists"].map((x) => Artist.fromJson(x))),
-//         genres: List<dynamic>.from(json["genres"].map((x) => x)),
-//         label: json["label"],
-//         popularity: json["popularity"],
-//       );
-
-//   @override
-//   String toString() {
-//     return 'Album(albumType: $albumType, totalTracks: $totalTracks, availableMarkets: $availableMarkets, href: $href, id: $id, images: $images, name: $name, releaseDate: $releaseDate, releaseDatePrecision: $releaseDatePrecision, type: $type, uri: $uri, artists: $artists, genres: $genres, label: $label, popularity: $popularity)';
-//   }
-// }
-
-// class Artist {
-//   String href;
-//   String? id;
-//   String? name;
-
-//   String uri;
-
-//   Artist({
-//     required this.href,
-//     required this.id,
-//     this.name,
-//     required this.uri,
-//   });
-
-//   factory Artist.fromJson(Map<String, dynamic> json) => Artist(
-//         href: json["href"],
-//         id: json["id"],
-//         name: json["name"],
-//         uri: json["uri"],
-//       );
-
-//   @override
-//   String toString() {
-//     return 'Artist(href: $href, id: $id, name: $name, uri: $uri)';
-//   }
-// }
-
-// class Image {
-//   String url;
-//   int height;
-//   int width;
-
-//   Image({
-//     required this.url,
-//     required this.height,
-//     required this.width,
-//   });
-
-//   factory Image.fromJson(Map<String, dynamic> json) => Image(
-//         url: json["url"],
-//         height: json["height"],
-//         width: json["width"],
-//       );
-
-//   @override
-//   String toString() => 'Image(url: $url, height: $height, width: $width)';
-// }
-
-// To parse this JSON data, do
-//
-//     final album = albumFromJson(jsonString);
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+// will remove unnessary code later.
 
 import 'dart:convert';
 
@@ -144,9 +21,8 @@ class Album {
   Map<String, dynamic> toJson() => {
         "albums": albums.toJson(),
       };
-  @override
   String toString() {
-    return 'Album(albums: $albums)';
+    return 'Albums(albums: $albums)';
   }
 }
 
@@ -205,9 +81,9 @@ class Item {
   List<Image> images;
   String name;
   DateTime releaseDate;
-  ReleaseDatePrecision? releaseDatePrecision;
+  ReleaseDatePrecision releaseDatePrecision;
   int totalTracks;
-  ItemType? type;
+  ItemType type;
   String uri;
 
   Item({
@@ -222,7 +98,7 @@ class Item {
     required this.releaseDate,
     required this.releaseDatePrecision,
     required this.totalTracks,
-    this.type,
+    required this.type,
     required this.uri,
   });
 
@@ -241,7 +117,7 @@ class Item {
         releaseDatePrecision:
             releaseDatePrecisionValues.map[json["release_date_precision"]]!,
         totalTracks: json["total_tracks"],
-        type: itemTypeValues.map[json["type"]],
+        type: itemTypeValues.map[json["type"]]!,
         uri: json["uri"],
       );
 
@@ -278,7 +154,7 @@ class Artist {
   String href;
   String id;
   String name;
-  ArtistType? type;
+  ArtistType type;
   String uri;
 
   Artist({
@@ -295,7 +171,7 @@ class Artist {
         href: json["href"],
         id: json["id"],
         name: json["name"],
-        type: artistTypeValues.map[json["type"]],
+        type: artistTypeValues.map[json["type"]]!,
         uri: json["uri"],
       );
 
@@ -328,6 +204,9 @@ class ExternalUrls {
   Map<String, dynamic> toJson() => {
         "spotify": spotify,
       };
+
+  @override
+  String toString() => 'ExternalUrls(spotify: $spotify)';
 }
 
 enum ArtistType { ARTIST }
@@ -356,6 +235,9 @@ class Image {
         "url": url,
         "width": width,
       };
+
+  @override
+  String toString() => 'Image(height: $height, url: $url, width: $width)';
 }
 
 enum ReleaseDatePrecision { DAY }
@@ -377,4 +259,7 @@ class EnumValues<T> {
     reverseMap = map.map((k, v) => MapEntry(v, k));
     return reverseMap;
   }
+
+  @override
+  String toString() => 'EnumValues(map: $map, reverseMap: $reverseMap)';
 }

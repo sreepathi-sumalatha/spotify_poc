@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:spotify_app_poc/models/album_model.dart';
 import 'package:spotify_app_poc/repository/album_service.dart';
 
@@ -13,14 +12,17 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
     on<AlbumFetchEvent>(albumFetchEvent);
     on<LoadMoreAlbumEvent>(loadMoreAlbumEvent);
   }
-  List<Album> loadAlbums = [];
+
+  List<Item> loadAlbums = [];
+
   FutureOr<void> albumFetchEvent(
       AlbumFetchEvent event, Emitter<AlbumState> emit) async {
     try {
+      // print('Fetching albums');
       emit(AlbumLoadingState());
       final albumDataa = await ApiService.albumList();
-
       loadAlbums.addAll(albumDataa);
+      // print(loadAlbums.map((e) => e.name));
       emit(AlbumSuccessesState(albumDataList: loadAlbums));
     } catch (error) {
       emit(AlbumErrorState(error: error.toString()));
@@ -28,5 +30,13 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   }
 
   FutureOr<void> loadMoreAlbumEvent(
-      LoadMoreAlbumEvent event, Emitter<AlbumState> emit) {}
+      LoadMoreAlbumEvent event, Emitter<AlbumState> emit) async {
+    // print("this is the loadmoreevent");
+    var oldData = (state as AlbumSuccessesState).albumDataList;
+    final newData = await ApiService.albumList();
+    oldData!.addAll(newData);
+    //other way to add the listviews using spread operator
+    //  var otherList = [...oldData, ...newData];
+    emit(AlbumSuccessesState(albumDataList: oldData));
+  }
 }
