@@ -1,8 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
+import 'package:spotify_app_poc/utils/constants.dart';
 import 'package:spotify_app_poc/models/album_model.dart';
 import 'package:spotify_app_poc/repository/album_service.dart';
+import 'package:http/http.dart' as http;
 
 part 'album_event.dart';
 part 'album_state.dart';
