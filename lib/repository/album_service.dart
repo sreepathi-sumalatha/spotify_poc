@@ -9,15 +9,20 @@ import 'package:spotify_app_poc/models/artist_model.dart';
 
 class ApiService {
   static Future<List<ArtistModel>> searchArtists(
-      {required String query, required String token}) async {
+      {required String query, required String token,
+      int offset = 0,
+  int limit = 20,
+      
+      }) async {
     List<ArtistModel> artists = [];
+    
 
     var baseUrl = 'https://api.spotify.com/v1';
     var endPoint = '$baseUrl/search';
     var searchType = 'type=artist';
     //  headers: {'Authorization': 'Bearer $token'};
 
-    final url = Uri.parse('$endPoint?q=$query&$searchType');
+    final url = Uri.parse('$endPoint?q=$query&$searchType&offset=$offset&limit=$limit');
     var response = await http.get(
       url,
       headers: {'Authorization': 'Bearer $token'},

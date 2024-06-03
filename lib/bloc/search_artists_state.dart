@@ -1,13 +1,14 @@
-part of 'search_artists_bloc.dart';
+import 'package:spotify_app_poc/models/artist_model.dart';
 
 abstract class SearchArtistsState {}
 
-final class SearchArtistsInitial extends SearchArtistsState {}
+class SearchArtistsInitial extends SearchArtistsState {}
 
 class SearchArtistQuerySuccessState extends SearchArtistsState {
-  List<ArtistModel> artists;
+  final List<ArtistModel> artists;
+  final bool hasReachedEnd;
 
-  SearchArtistQuerySuccessState(this.artists);
+  SearchArtistQuerySuccessState(this.artists, {this.hasReachedEnd = false});
 }
 
 class SearchArtistQueryLoadingState extends SearchArtistsState {}

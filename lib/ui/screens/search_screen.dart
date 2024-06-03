@@ -4,8 +4,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_app_poc/bloc/search_artists_bloc.dart';
+import 'package:spotify_app_poc/bloc/search_artists_state.dart';
 import 'package:spotify_app_poc/blocs/bloc/album_bloc.dart';
-// ignore_for_file: prefer_const_constructors
+
+
+import 'dart:developer';
+
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify_app_poc/bloc/search_artists_bloc.dart';
+import 'package:spotify_app_poc/blocs/bloc/album_bloc.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -18,6 +27,7 @@ class _SearchScreenState extends State<SearchScreen> {
   late SearchArtistsBloc artistBloc;
   final _controller = ScrollController();
   late AlbumBloc albumBloc;
+  String currentQuery = '';
 
   @override
   void initState() {
@@ -28,10 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         bool isTop = _controller.position.pixels == 0;
-        if (isTop) {
-          print('At the top');
-        } else {
-          print('At the bottom');
+        if (!isTop) {
           artistBloc.add(LoadMoreArtistsEvent());
         }
       }
@@ -41,13 +48,14 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void dispose() {
     albumBloc.close();
+    artistBloc.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SearchArtistsBloc(),
+      create: (context) => artistBloc,
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
@@ -59,9 +67,8 @@ class _SearchScreenState extends State<SearchScreen> {
               children: [
                 TextField(
                   onChanged: (query) {
-                    log(query);
-                    BlocProvider.of<SearchArtistsBloc>(context)
-                        .add(SearchArtistsByQueryEvent(query));
+                    currentQuery = query;
+                    artistBloc.add(SearchArtistsByQueryEvent(query));
                   },
                   decoration: InputDecoration(
                     labelText: 'Search',
@@ -70,8 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50.0),
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
                   ),
                   textInputAction: TextInputAction.search,
                 ),
@@ -79,43 +85,44 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   child: BlocBuilder<SearchArtistsBloc, SearchArtistsState>(
                     builder: (context, state) {
-                      log("State as $state");
                       if (state is SearchArtistQueryLoadingState) {
                         return Center(child: CircularProgressIndicator());
                       } else if (state is SearchArtistQuerySuccessState) {
-                        log("${state.artists.length}");
-
                         return ListView.builder(
                           controller: _controller,
-                          itemCount: state.artists.length,
+                          itemCount: state.hasReachedEnd
+                              ? state.artists.length + 1
+                              : state.artists.length + 1, // Add one for the loading indicator or end text
                           itemBuilder: (context, index) {
+                            if (index == state.artists.length) {
+                              if (state.hasReachedEnd) {
+                                return Center(child: Text("There is no records found"));
+                              } else {
+                                return Center(child: CircularProgressIndicator());
+                              }
+                            }
                             return Card(
                               child: ListTile(
                                 leading: CachedNetworkImage(
                                   imageUrl: state.artists[index].image.isEmpty
                                       ? "https://homestaymatch.com/images/no-image-available.png"
                                       : state.artists[index].image,
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
+                                  imageBuilder: (context, imageProvider) => Container(
                                     width: 60,
                                     height: 60,
                                     decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
+                                      borderRadius: BorderRadius.all(Radius.circular(10)),
                                       image: DecorationImage(
                                         image: imageProvider,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                  placeholder: (context, url) => CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) => Icon(Icons.error),
                                   width: 60,
                                   height: 60,
                                 ),
-                                // title: Text(state.artists[index].name),
                                 title: Text(
                                   state.artists[index].name,
                                   maxLines: 1,
@@ -127,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   ),
                                 ),
                                 subtitle: Text(
-                                  state.artists[index].popularity.toString(),
+                               'Popularity: ${state.artists[index].popularity}',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 12,
@@ -147,10 +154,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           },
                         );
                       } else if (state is SearchArtistQueryErrorState) {
-                        return Center(child: Text("there is the error"));
+                        return Center(child: Text("There is an error"));
                       }
-                      return Center(
-                          child: Text('Please enter a search query...'));
+                      return Center(child: Text('Please enter a search query...'));
                     },
                   ),
                 ),
@@ -162,3 +168,4 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
+
