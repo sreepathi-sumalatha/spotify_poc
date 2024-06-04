@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:spotify_app_poc/repository/services.dart';
-import 'package:spotify_app_poc/utils/constants.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
-import 'package:http/http.dart' as http;
 
 part 'album_event.dart';
 part 'album_state.dart';

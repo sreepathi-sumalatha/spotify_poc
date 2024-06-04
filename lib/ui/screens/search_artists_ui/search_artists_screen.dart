@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spotify_app_poc/blocs/search/search_artists_bloc.dart';
-import 'package:spotify_app_poc/blocs/search/search_artists_state.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
+import 'package:spotify_app_poc/blocs/search_artists/search_artists_bloc.dart';
+import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
 // ignore_for_file: prefer_const_constructors
 
 class SearchScreen extends StatefulWidget {
@@ -100,7 +100,11 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (index == state.artists.length) {
                               if (state.hasReachedEnd) {
                                 return Center(
-                                    child: Text('Reached end of the records'));
+                                    child: Text(
+                                  '.....Reached end of the records....',
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 15),
+                                ));
                               } else {
                                 return Center(
                                     child: CircularProgressIndicator());

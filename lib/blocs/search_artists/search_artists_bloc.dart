@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
-import 'package:spotify_app_poc/blocs/search/search_artists_state.dart';
+// ignore: depend_on_referenced_packages
+import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
 import 'package:spotify_app_poc/repository/services.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 

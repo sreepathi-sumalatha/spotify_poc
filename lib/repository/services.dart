@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
-import 'package:spotify_app_poc/models/artists/artist_model.dart';
+import 'package:spotify_app_poc/models/search_artists/artist_model.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 
 class ApiService {
@@ -35,7 +35,7 @@ class ApiService {
         var artist = ArtistModel(
           name: item['name'],
           popularity: item['popularity'],
-          image: images.isEmpty ? "no url" : images[0]['url'],
+          image: images.isEmpty ? 'no url' : images[0]['url'],
         );
         artists.add(artist);
       }

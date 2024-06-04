@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spotify_app_poc/repository/services.dart';
-import 'package:spotify_app_poc/ui/screens/album/detailed_screen.dart';
-import 'package:spotify_app_poc/ui/screens/search_screen.dart';
+import 'package:spotify_app_poc/ui/screens/album/album_detailed_screen.dart';
+import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_screen.dart';
 
 // ignore_for_file: prefer_const_constructors
 
@@ -51,7 +50,14 @@ class _AlbumListState extends State<AlbumList> {
       child: Scaffold(
         appBar: AppBar(
           title: const Center(
-            child: Text('Spotify App'),
+            child: Text(
+              'Spotify App',
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                color: Colors.deepPurple,
+              ),
+            ),
           ),
         ),
         body: Column(
@@ -116,7 +122,7 @@ class _AlbumListState extends State<AlbumList> {
                                     leading: CachedNetworkImage(
                                       imageUrl: album.images.isNotEmpty
                                           ? album.images[0].url
-                                          : "https://homestaymatch.com/images/no-image-available.png",
+                                          : 'https://homestaymatch.com/images/no-image-available.png',
                                       imageBuilder: (context, imageProvider) =>
                                           Container(
                                         width: 60,
@@ -150,7 +156,7 @@ class _AlbumListState extends State<AlbumList> {
                                     subtitle: Text(
                                       album.artists
                                           .map((artist) => artist.name)
-                                          .join(", "),
+                                          .join(', '),
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(
