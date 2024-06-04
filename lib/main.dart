@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'ui/screens/albums_home_screen.dart';
+import 'ui/screens/album/albums_home_screen.dart';
 // ignore_for_file: prefer_const_constructors
 
 void main() {

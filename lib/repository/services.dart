@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:spotify_app_poc/models/album_model.dart';
-import 'package:spotify_app_poc/models/artist_model.dart';
+import 'package:spotify_app_poc/models/album/album_model.dart';
+import 'package:spotify_app_poc/models/artists/artist_model.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 
 class ApiService {

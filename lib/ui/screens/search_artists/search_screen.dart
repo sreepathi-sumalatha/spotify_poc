@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:spotify_app_poc/bloc/search_artists_bloc.dart';
-import 'package:spotify_app_poc/bloc/search_artists_state.dart';
-import 'package:spotify_app_poc/blocs/bloc/album_bloc.dart';
+import 'package:spotify_app_poc/blocs/search/search_artists_bloc.dart';
+import 'package:spotify_app_poc/blocs/search/search_artists_state.dart';
+import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
 // ignore_for_file: prefer_const_constructors
 
 class SearchScreen extends StatefulWidget {
@@ -49,7 +49,18 @@ class _SearchScreenState extends State<SearchScreen> {
       child: Builder(builder: (context) {
         return Scaffold(
           appBar: AppBar(
-            title: Center(child: Text('Search ')),
+            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(color: Colors.deepPurple),
+            title: Center(
+              child: Text(
+                'Search ',
+                style: TextStyle(
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.deepPurple,
+                ),
+              ),
+            ),
           ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -155,7 +166,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         return Center(child: Text('There is an error'));
                       }
                       return Center(
-                          child: Text('Please enter a search query...'));
+                          child: Text(
+                        'Please enter a search query...',
+                        style: TextStyle(color: Colors.red, fontSize: 20),
+                      ));
                     },
                   ),
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:spotify_app_poc/models/album_model.dart';
+import 'package:spotify_app_poc/models/album/album_model.dart';
 // ignore_for_file: prefer_const_constructors
 
 class AlbumDetailedScreen extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:spotify_app_poc/bloc/search_artists_state.dart';
+import 'package:spotify_app_poc/blocs/search/search_artists_state.dart';
 import 'package:spotify_app_poc/repository/services.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 
