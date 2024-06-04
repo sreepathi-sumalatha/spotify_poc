@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:spotify_app_poc/blocs/bloc/album_bloc.dart';
-import 'package:spotify_app_poc/repository/album_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify_app_poc/repository/services.dart';
 import 'package:spotify_app_poc/ui/screens/search_screen.dart';
 
 // ignore_for_file: prefer_const_constructors

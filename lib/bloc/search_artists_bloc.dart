@@ -4,10 +4,8 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:spotify_app_poc/bloc/search_artists_state.dart';
-import 'package:spotify_app_poc/models/album_model.dart';
+import 'package:spotify_app_poc/repository/services.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
-import 'package:spotify_app_poc/models/artist_model.dart';
-import 'package:spotify_app_poc/repository/album_service.dart';
 
 part 'search_artists_event.dart';
 
@@ -22,7 +20,8 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     on<LoadMoreArtistsEvent>(_loadMoreArtists);
   }
 
-  FutureOr<void> _searchArtistsByQuery(SearchArtistsByQueryEvent event, Emitter<SearchArtistsState> emit) async {
+  FutureOr<void> _searchArtistsByQuery(
+      SearchArtistsByQueryEvent event, Emitter<SearchArtistsState> emit) async {
     emit(SearchArtistQueryLoadingState());
     try {
       currentQuery = event.query;
@@ -35,7 +34,8 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
       );
       offset += limit;
       bool hasReachedEnd = artistData.length < limit;
-      emit(SearchArtistQuerySuccessState(artistData, hasReachedEnd: hasReachedEnd));
+      emit(SearchArtistQuerySuccessState(artistData,
+          hasReachedEnd: hasReachedEnd));
     } catch (e) {
       print(e.toString());
       log(e.toString());
@@ -43,12 +43,14 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     }
   }
 
-  FutureOr<void> _loadMoreArtists(LoadMoreArtistsEvent event, Emitter<SearchArtistsState> emit) async {
+  FutureOr<void> _loadMoreArtists(
+      LoadMoreArtistsEvent event, Emitter<SearchArtistsState> emit) async {
     if (isLoadingMore) return;
     isLoadingMore = true;
 
     final currentState = state;
-    if (currentState is SearchArtistQuerySuccessState && !currentState.hasReachedEnd) {
+    if (currentState is SearchArtistQuerySuccessState &&
+        !currentState.hasReachedEnd) {
       try {
         final additionalArtists = await ApiService.searchArtists(
           query: currentQuery,
@@ -58,7 +60,9 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
         );
         offset += limit;
         bool hasReachedEnd = additionalArtists.length < limit;
-        emit(SearchArtistQuerySuccessState(currentState.artists + additionalArtists, hasReachedEnd: hasReachedEnd));
+        emit(SearchArtistQuerySuccessState(
+            currentState.artists + additionalArtists,
+            hasReachedEnd: hasReachedEnd));
       } catch (e) {
         print(e.toString());
         log(e.toString());
@@ -67,5 +71,3 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     isLoadingMore = false;
   }
 }
-
-
