@@ -89,7 +89,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             if (index == state.artists.length) {
                               if (state.hasReachedEnd) {
                                 return Center(
-                                    child: Text('There is no records found'));
+                                    child: Text('Reached end of the records'));
                               } else {
                                 return Center(
                                     child: CircularProgressIndicator());
