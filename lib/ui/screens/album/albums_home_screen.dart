@@ -3,7 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_app_poc/ui/screens/album/album_detailed_screen.dart';
-import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_screen.dart';
+import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_artists_screen.dart';
 
 // ignore_for_file: prefer_const_constructors
 

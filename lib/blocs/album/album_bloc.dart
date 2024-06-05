@@ -19,7 +19,6 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   FutureOr<void> albumFetchEvent(
       AlbumFetchEvent event, Emitter<AlbumState> emit) async {
     try {
-      // print('Fetching albums');
       emit(AlbumLoadingState());
       final albumDataa = await ApiService.albumList();
       loadAlbums.addAll(albumDataa);
@@ -32,7 +31,6 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
 
   FutureOr<void> loadMoreAlbumEvent(
       LoadMoreAlbumEvent event, Emitter<AlbumState> emit) async {
-    // print("this is the loadmoreevent");
     var oldData = (state as AlbumSuccessesState).albumDataList;
     final newData = await ApiService.albumList();
     oldData!.addAll(newData);

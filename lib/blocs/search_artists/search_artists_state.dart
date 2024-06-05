@@ -1,4 +1,4 @@
-import 'package:spotify_app_poc/models/search_artists/artist_model.dart';
+import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
 
 abstract class SearchArtistsState {}
 

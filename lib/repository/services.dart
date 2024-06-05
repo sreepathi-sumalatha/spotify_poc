@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
-import 'package:spotify_app_poc/models/search_artists/artist_model.dart';
+import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 
 class ApiService {
@@ -44,7 +44,7 @@ class ApiService {
     throw Exception('${response.statusCode}');
   }
 
-  static Future<List<Item>> albumList({int limit = 20, int offset = 0}) async {
+  static Future<List<Item>> albumList({int limit = 8, int offset = 0}) async {
     try {
       final url = Uri.parse(
         'https://api.spotify.com/v1/browse/new-releases?limit=$limit&offset=$offset',
@@ -56,8 +56,11 @@ class ApiService {
 
       if (response.statusCode == 200) {
         Map<String, dynamic> jsonData = jsonDecode(response.body);
-        var result = Album.fromJson(jsonData);
-        return result.albums.items;
+        var itemsData = jsonData['albums']['items'] as List;
+        var items = itemsData.map((e) => Item.fromJson(e)).toList();
+        return items;
+        // var result = Album.fromJson(jsonData);
+        // return result.albums.items;
       } else if (response.statusCode == 400) {
         throw Exception('Data Not Found');
       }
