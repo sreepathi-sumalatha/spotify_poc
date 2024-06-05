@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
+import 'package:http/http.dart';
 // ignore: depend_on_referenced_packages
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
 import 'package:spotify_app_poc/repository/services.dart';
@@ -11,6 +13,8 @@ import 'package:spotify_app_poc/utils/constants.dart';
 part 'search_artists_event.dart';
 
 class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
+  
+  var apiService = ApiService(Client());
   int offset = 0;
   final int limit = 20;
   bool isLoadingMore = false;
@@ -27,7 +31,7 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     try {
       currentQuery = event.query;
       offset = 0; // Reset offset for new query
-      final artistData = await ApiService.searchArtists(
+      final artistData = await apiService.searchArtists(
         query: event.query,
         token: Constants.token,
         offset: offset,
@@ -53,7 +57,7 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     if (currentState is SearchArtistQuerySuccessState &&
         !currentState.hasReachedEnd) {
       try {
-        final additionalArtists = await ApiService.searchArtists(
+        final additionalArtists = await apiService.searchArtists(
           query: currentQuery,
           token: Constants.token,
           offset: offset,

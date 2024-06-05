@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 
 class ApiService {
-  static Future<List<ArtistModel>> searchArtists({
+  final http.Client client;
+  ApiService(this.client);
+   Future<List<ArtistModel>> searchArtists({
     required String query,
     required String token,
     int offset = 0,
@@ -21,7 +22,7 @@ class ApiService {
 
     final url =
         Uri.parse('$endPoint?q=$query&$searchType&offset=$offset&limit=$limit');
-    var response = await http.get(
+    var response = await client.get(
       url,
       headers: {'Authorization': 'Bearer $token'},
     );
@@ -49,7 +50,7 @@ class ApiService {
       final url = Uri.parse(
         'https://api.spotify.com/v1/browse/new-releases?limit=$limit&offset=$offset',
       );
-      Response response = await http.get(
+      http.Response response = await http.get(
         url,
         headers: {'Authorization': 'Bearer ${Constants.token}'},
       );
