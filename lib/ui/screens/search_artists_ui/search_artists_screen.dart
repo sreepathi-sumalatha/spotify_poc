@@ -22,9 +22,9 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   void initState() {
     super.initState();
-    albumBloc = AlbumBloc();
+    // albumBloc = AlbumBloc();
     albumBloc.add(AlbumFetchEvent());
-    artistBloc = SearchArtistsBloc();
+    // artistBloc = SearchArtistsBloc();
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         bool isTop = _controller.position.pixels == 0;

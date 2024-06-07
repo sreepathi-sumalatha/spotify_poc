@@ -17,7 +17,7 @@ void main() {
   group('SerachArtists, Albums succcess and failure  test senarios', () {
     test('When  api returns success then return List of Artists Data',
         () async {
-      var stub = fixture("search_artists_response.json");
+      var stub = fixture('search_artists_response.json');
       when(mockClient.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => Response(stub, 200));
       var result =
@@ -26,25 +26,6 @@ void main() {
       expect(result, isA<List<ArtistModel>>());
     });
 
-    /// some other way all expected values.............................
-// test('When API returns success then return List of Artists Data', () async {
-//       var stub = fixture("search_artists_response.json");
-//       when(mockClient.get(any, headers: anyNamed('headers')))
-//           .thenAnswer((_) async => Response(stub, 200));
-
-//       var result = await apiService.searchArtists(query: 'query', token: 'token');
-
-//       expect(result, isA<List<ArtistModel>>());
-//       expect(result.length, greaterThan(0));
-//       expect(result[0], isA<ArtistModel>());
-//       expect(result[0].name, isNotEmpty);
-//       expect(result[0].image, isNotEmpty);
-//       expect(result[0].popularity, isNotNull);
-//     });
-
-    // test('When  api returns fails then return error data',(){
-
-    // });
     test('When API returns failure then throw exception', () async {
       when(mockClient.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => Response('Not Found', 404));
