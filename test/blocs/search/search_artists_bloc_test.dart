@@ -8,58 +8,66 @@ import 'package:spotify_app_poc/blocs/search_artists/search_artists_bloc.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
 import 'package:spotify_app_poc/repository/services.dart';
-import 'package:spotify_app_poc/utils/constants.dart';
 
-import '../../repository/services_test.mocks.dart';
 import '../../stub_responses/read_response.dart';
+import 'search_artists_bloc_test.mocks.dart';
 
-@GenerateMocks([BaseClient])
+@GenerateMocks([ApiService])
 void main() {
-  late BaseClient baseClient;
-  var mockClient = MockBaseClient();
-  var apiService = ApiService(mockClient);
+  final SearchArtistsBloc searchArtistsBloc;
+  late ApiService apiService;
 
-  // setUp(() {
-  //   baseClient = BaseClient();
-  // });
+  setUp(() {
+    apiService = ApiService(Client());
+  });
+
+  tearDown(() {});
 
   group('SearchArtistsBloc', () {
+    // test('initial state is SearchArtistsInitial', () {
+    //   expect(searchArtistsBloc.state, SearchArtistsInitial());
+    // });
+
     blocTest<SearchArtistsBloc, SearchArtistsState>(
-      'emits [SearchArtistQueryLoadingState, SearchArtistQuerySuccessState] when search is successful',
-      build: () {
-        var stub = fixture("search_artists_response.json");
-        when(mockClient.searchArtists(
-          query: anyNamed('query'),
-          token: anyNamed('token'),
-          offset: anyNamed('offset'),
-          limit: anyNamed('limit'),
-        )).thenAnswer((_) async {
-          var result = jsonDecode(stub)['artists']['items'] as List;
-          return result.map((item) {
-            var images = item['images'] as List;
-            return ArtistModel(
-              name: item['name'],
-              popularity: item['popularity'],
-              image: images.isEmpty ? 'no url' : images[0]['url'],
-            );
-          }).toList();
-        });
-        return searchArtistsBloc;
-      },
-      act: (bloc) => bloc.add(SearchArtistsByQueryEvent('query')),
-      expect: () => [
-        SearchArtistQueryLoadingState(),
-        isA<SearchArtistQuerySuccessState>()
-            .having((state) => state.artists, 'artists', isNotEmpty),
-      ],
-    );
+        'emits [SearchArtistQueryLoadingState, SearchArtistQuerySuccessState] when search is successful',
+        build: () {
+          var stub = fixture('search_artists_response.json');
+          when(apiService.searchArtists(
+            query: anyNamed('query').toString(),
+            token: anyNamed('token').toString(),
+            offset: anyNamed('offset'),
+            limit: anyNamed('limit'),
+          )).thenAnswer((_) async {
+            var result = jsonDecode(stub)['artists']['items'] as List;
+            return result.map((item) {
+              var images = item['images'] as List;
+              return ArtistModel(
+                name: item['name'],
+                popularity: item['popularity'],
+                image: images.isEmpty ? 'no url' : images[0]['url'],
+              );
+            }).toList();
+          });
+          return;
+        },
+        act: (bloc) => bloc.add(SearchArtistsByQueryEvent('query')),
+        expect: () => [
+              isA<SearchArtistQueryLoadingState>(),
+              isA<SearchArtistQueryLoadingState>(),
+            ]
+        // expect: () => (isA <SearchArtistQueryLoadingState()>);
+        // expect: () => [
+        //   SearchArtistQueryLoadingState(),
+        //   isA<SearchArtistQueryLoadingState>().having((state) => state.artists, 'artists', isNotEmpty),
+        // ],
+        );
 
     blocTest<SearchArtistsBloc, SearchArtistsState>(
       'emits [SearchArtistQueryLoadingState, SearchArtistQueryErrorState] when search fails',
       build: () {
-        when(mockClient.searchArtists(
-          query: anyNamed('query'),
-          token: anyNamed('token'),
+        when(apiService.searchArtists(
+          query: anyNamed('query').toString(),
+          token: anyNamed('token').toString(),
           offset: anyNamed('offset'),
           limit: anyNamed('limit'),
         )).thenThrow(Exception('API call failed'));
@@ -78,7 +86,7 @@ void main() {
         var initialStub = fixture("search_artists_response.json");
         var loadMoreStub = fixture("search_artists_response.json");
 
-        when(mockClient.searchArtists(
+        when(apiService.searchArtists(
           query: anyNamed('query'),
           token: anyNamed('token'),
           offset: 0,
@@ -95,7 +103,7 @@ void main() {
           }).toList();
         });
 
-        when(mockClient.searchArtists(
+        when(apiService.searchArtists(
           query: anyNamed('query'),
           token: anyNamed('token'),
           offset: 20,

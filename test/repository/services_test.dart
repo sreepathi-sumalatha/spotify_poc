@@ -14,7 +14,7 @@ void main() {
   var mockClient = MockBaseClient();
   var apiService = ApiService(mockClient);
 
-  group('SerachArtists test senarios', () {
+  group('SerachArtists, Albums succcess and failure  test senarios', () {
     test('When  api returns success then return List of Artists Data',
         () async {
       var stub = fixture("search_artists_response.json");
