@@ -6,7 +6,6 @@ import 'package:spotify_app_poc/ui/screens/album/album_detailed_screen.dart';
 import 'package:spotify_app_poc/ui/screens/album/albums_home_screen.dart';
 import 'package:mockito/mockito.dart';
 
-
 //  void main() {
 // //   TestWidgetsFlutterBinding.ensureInitialized();
 // //   setUp(() async {});
@@ -30,10 +29,8 @@ import 'package:spotify_app_poc/ui/screens/album/album_detailed_screen.dart';
 import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_artists_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 void main() {
   group('AlbumList Widget Tests', () {
-
     late AlbumBloc albumBloc;
 
     setUp(() {

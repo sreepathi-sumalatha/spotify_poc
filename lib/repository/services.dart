@@ -8,7 +8,7 @@ import 'package:spotify_app_poc/utils/constants.dart';
 class ApiService {
   final http.Client client;
   ApiService(this.client);
-   Future<List<ArtistModel>> searchArtists({
+  Future<List<ArtistModel>> searchArtists({
     required String query,
     required String token,
     int offset = 0,
@@ -45,7 +45,7 @@ class ApiService {
     throw Exception('${response.statusCode}');
   }
 
-  static Future<List<Item>> albumList({int limit = 8, int offset = 0}) async {
+  Future<List<Item>> albumList({int limit = 8, int offset = 0}) async {
     try {
       final url = Uri.parse(
         'https://api.spotify.com/v1/browse/new-releases?limit=$limit&offset=$offset',

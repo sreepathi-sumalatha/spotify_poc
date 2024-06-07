@@ -13,7 +13,6 @@ import 'package:spotify_app_poc/utils/constants.dart';
 part 'search_artists_event.dart';
 
 class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
-  
   var apiService = ApiService(Client());
   int offset = 0;
   final int limit = 20;

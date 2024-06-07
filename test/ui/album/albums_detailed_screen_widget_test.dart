@@ -27,34 +27,13 @@ void main() {
     // Pump the widget again to apply changes (if any)
     await tester.pump();
 
-    //Check if app bar exists
     var finder = find.byType(AppBar);
-    // await tester.pumpUntilFound(finder);
+
     expect(finder, findsOneWidget);
 
     var finder1 = find.byType(CachedNetworkImage);
     expect(finder1, findsOneWidget);
-    // await tester.pumpUntilFound(finder1);
+
     await tester.tap(finder1);
   });
 }
-
-// extension PumpUntilFound on WidgetTester {
-//   Future<void> pumpUntilFound(
-//     Finder finder, {
-//     Duration duration = const Duration(milliseconds: 100),
-//     int tries = 10,
-//   }) async {
-//     for (var i = 0; i < tries; i++) {
-//       await pump(duration);
-
-//       final result = finder.precache();
-
-//       if (result) {
-//         finder.evaluate();
-
-//         break;
-//       }
-//     }
-//   }
-// }
