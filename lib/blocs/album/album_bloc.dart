@@ -10,6 +10,8 @@ part 'album_event.dart';
 part 'album_state.dart';
 
 class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
+  // AlbumBloc() : super(AlbumInitial()) {
+
   final ApiService apiService;
   AlbumBloc(this.apiService) : super(AlbumInitial()) {
     on<AlbumFetchEvent>(albumFetchEvent);
@@ -17,7 +19,7 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   }
 
   List<Item> loadAlbums = [];
-  // var apiService = ApiService(Client());
+  //  var apiService = ApiService(Client());
   FutureOr<void> albumFetchEvent(
       AlbumFetchEvent event, Emitter<AlbumState> emit) async {
     try {

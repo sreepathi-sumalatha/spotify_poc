@@ -22,7 +22,7 @@ class _AlbumListState extends State<AlbumList> {
   @override
   void initState() {
     super.initState();
-    // albumBloc = AlbumBloc();
+    //  albumBloc = AlbumBloc();
     albumBloc.add(AlbumFetchEvent());
     _controller.addListener(() {
       if (_controller.position.atEdge) {

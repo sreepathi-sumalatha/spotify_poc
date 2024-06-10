@@ -17,7 +17,8 @@ void main() {
   group('SerachArtists, Albums succcess and failure  test senarios', () {
     test('When  api returns success then return List of Artists Data',
         () async {
-      var stub = fixture('search_artists_response.json');
+      var stub = fixture(
+          'search_artists_response.json'); // it will feed the stub response
       when(mockClient.get(any, headers: anyNamed('headers')))
           .thenAnswer((_) async => Response(stub, 200));
       var result =

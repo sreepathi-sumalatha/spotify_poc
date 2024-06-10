@@ -29,7 +29,7 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     emit(SearchArtistQueryLoadingState());
     try {
       currentQuery = event.query;
-      offset = 0; // Reset offset for new query
+      offset = 0;
       final artistData = await apiService.searchArtists(
         query: event.query,
         token: Constants.token,

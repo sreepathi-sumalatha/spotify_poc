@@ -50,7 +50,7 @@ class ApiService {
       final url = Uri.parse(
         'https://api.spotify.com/v1/browse/new-releases?limit=$limit&offset=$offset',
       );
-      http.Response response = await http.get(
+      http.Response response = await client.get(
         url,
         headers: {'Authorization': 'Bearer ${Constants.token}'},
       );
@@ -68,6 +68,6 @@ class ApiService {
     } catch (e) {
       print('Unable to load the data due to :$e');
     }
-    return [];
+    throw Exception('error');
   }
 }
