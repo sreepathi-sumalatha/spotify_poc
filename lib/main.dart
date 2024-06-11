@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spotify_app_poc/ui/screens/album/album_list.dart';
 
-import 'ui/screens/album/albums_home_screen.dart';
 // ignore_for_file: prefer_const_constructors
 
 void main() {

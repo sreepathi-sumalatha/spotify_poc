@@ -2,7 +2,7 @@ import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
-import 'package:spotify_app_poc/ui/screens/album/albums_home_screen.dart';
+import 'package:spotify_app_poc/ui/screens/album/album_list.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MockAlbumBloc extends MockBloc<AlbumEvent, AlbumState>
