@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_bloc.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
+import 'package:spotify_app_poc/repository/spotify_repository.dart';
 // ignore_for_file: prefer_const_constructors
 
 class SearchScreen extends StatefulWidget {
@@ -18,13 +20,15 @@ class _SearchScreenState extends State<SearchScreen> {
   final _controller = ScrollController();
   late AlbumBloc albumBloc;
   String currentQuery = '';
+  late final ApiService apiService;
 
   @override
   void initState() {
     super.initState();
-    // albumBloc = AlbumBloc();
+    apiService = ApiService(Client());
+    albumBloc = AlbumBloc(apiService);
     albumBloc.add(AlbumFetchEvent());
-    // artistBloc = SearchArtistsBloc();
+    artistBloc = SearchArtistsBloc(apiService);
     _controller.addListener(() {
       if (_controller.position.atEdge) {
         bool isTop = _controller.position.pixels == 0;

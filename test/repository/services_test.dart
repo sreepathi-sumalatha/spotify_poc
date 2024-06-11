@@ -4,7 +4,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
-import 'package:spotify_app_poc/repository/services.dart';
+import 'package:spotify_app_poc/repository/spotify_repository.dart';
 
 import '../stub_responses/read_response.dart';
 import 'services_test.mocks.dart';
@@ -29,7 +29,7 @@ void main() {
 
     test('When API returns failure then throw exception', () async {
       when(mockClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => Response('Not Found', 404));
+          .thenThrow((_) async => Response('Not Found', 404));
 
       expect(
         () async =>
@@ -46,6 +46,8 @@ void main() {
     var result = await apiService.albumList();
 
     expect(result, isA<List<Item>>());
+    // need to check the lengh of the listview, match with the return list view.
+    // we are getting correct data or not ,expect data, need to check list of the length is empty  this senariso.
   });
   test('When API returns failure then throw exception', () async {
     when(mockClient.get(any, headers: anyNamed('headers')))

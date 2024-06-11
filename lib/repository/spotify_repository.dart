@@ -3,12 +3,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:spotify_app_poc/models/album/album_model.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
+import 'package:spotify_app_poc/repository/api_endpoints.dart';
 import 'package:spotify_app_poc/utils/constants.dart';
 
 class ApiService {
   final http.Client client;
   ApiService(this.client);
-  Future<List<ArtistModel>> searchArtists({
+
+  /*Future<List<ArtistModel>> searchArtists({
     required String query,
     required String token,
     int offset = 0,
@@ -16,12 +18,10 @@ class ApiService {
   }) async {
     List<ArtistModel> artists = [];
 
-    var baseUrl = 'https://api.spotify.com/v1';
-    var endPoint = '$baseUrl/search';
+    var endPoint = '${ApiEndpoints.baseUrl}${ApiEndpoints.search}';
     var searchType = 'type=artist';
 
-    final url =
-        Uri.parse('$endPoint?q=$query&$searchType&offset=$offset&limit=$limit');
+    final url = Uri.parse('$endPoint?q=$query&$searchType&offset=$offset&limit=$limit');
     var response = await client.get(
       url,
       headers: {'Authorization': 'Bearer $token'},
@@ -43,12 +43,46 @@ class ApiService {
       return artists;
     }
     throw Exception('${response.statusCode}');
+  }*/
+  Future<List<ArtistModel>> searchArtists({
+    required String query,
+    required String token,
+    int offset = 0,
+    int limit = 20,
+  }) async {
+    var endPoint = '${ApiEndpoints.baseUrl}${ApiEndpoints.search}';
+    var searchType = 'type=artist';
+
+    final url =
+        Uri.parse('$endPoint?q=$query&$searchType&offset=$offset&limit=$limit');
+    var response = await client.get(
+      url,
+      headers: {'Authorization': 'Bearer $token'},
+    );
+
+    if (response.statusCode == 200) {
+      var result = jsonDecode(response.body);
+      var items = result['artists']['items'] as List;
+
+      // Use .map to convert items to a list of ArtistModel
+      var artists = items.map((item) {
+        List images = item['images'];
+        return ArtistModel(
+          name: item['name'],
+          popularity: item['popularity'],
+          image: images.isEmpty ? 'no url' : images[0]['url'],
+        );
+      }).toList();
+
+      return artists;
+    }
+    throw Exception('${response.statusCode}');
   }
 
   Future<List<Item>> albumList({int limit = 8, int offset = 0}) async {
     try {
       final url = Uri.parse(
-        'https://api.spotify.com/v1/browse/new-releases?limit=$limit&offset=$offset',
+        '${ApiEndpoints.baseUrl}${ApiEndpoints.newReleases}?limit=$limit&offset=$offset',
       );
       http.Response response = await client.get(
         url,
@@ -60,8 +94,6 @@ class ApiService {
         var itemsData = jsonData['albums']['items'] as List;
         var items = itemsData.map((e) => Item.fromJson(e)).toList();
         return items;
-        // var result = Album.fromJson(jsonData);
-        // return result.albums.items;
       } else if (response.statusCode == 400) {
         throw Exception('Data Not Found');
       }

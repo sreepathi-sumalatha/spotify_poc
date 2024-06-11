@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:http/http.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spotify_app_poc/repository/spotify_repository.dart';
 import 'package:spotify_app_poc/ui/screens/album/album_detailed_screen.dart';
 import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_artists_screen.dart';
 
@@ -16,13 +18,15 @@ class AlbumList extends StatefulWidget {
 
 class _AlbumListState extends State<AlbumList> {
   final TextEditingController _searchController = TextEditingController();
-  late AlbumBloc albumBloc;
+  late final AlbumBloc albumBloc;
+  late final ApiService apiService;
   final _controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    //  albumBloc = AlbumBloc();
+    apiService = ApiService(Client());
+    albumBloc = AlbumBloc(apiService);
     albumBloc.add(AlbumFetchEvent());
     _controller.addListener(() {
       if (_controller.position.atEdge) {

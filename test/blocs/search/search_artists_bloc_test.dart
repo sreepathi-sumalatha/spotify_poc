@@ -5,7 +5,7 @@ import 'package:mockito/mockito.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_bloc.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
-import 'package:spotify_app_poc/repository/services.dart';
+import 'package:spotify_app_poc/repository/spotify_repository.dart';
 
 import 'search_artists_bloc_test.mocks.dart';
 

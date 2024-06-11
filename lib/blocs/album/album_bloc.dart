@@ -3,8 +3,8 @@ import 'dart:async';
 // ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:http/http.dart';
-import 'package:spotify_app_poc/repository/services.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
+import 'package:spotify_app_poc/repository/spotify_repository.dart';
 
 part 'album_event.dart';
 part 'album_state.dart';

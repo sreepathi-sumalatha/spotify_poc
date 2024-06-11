@@ -1,50 +1,12 @@
 import 'dart:convert';
 
-Album albumFromJson(String str) => Album.fromJson(json.decode(str));
+/// Convert a JSON string to a list of items
+List<Item> itemsFromJson(String str) =>
+    List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
 
-String albumToJson(Album data) => json.encode(data.toJson());
-
-class Album {
-  Albums albums;
-
-  Album({
-    required this.albums,
-  });
-
-  factory Album.fromJson(Map<String, dynamic> json) => Album(
-        albums: Albums.fromJson(json['albums']),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'albums': albums.toJson(),
-      };
-
-  @override
-  String toString() {
-    return 'Album(albums: $albums)';
-  }
-}
-
-class Albums {
-  List<Item> items;
-
-  Albums({
-    required this.items,
-  });
-
-  factory Albums.fromJson(Map<String, dynamic> json) => Albums(
-        items: List<Item>.from(json['items'].map((x) => Item.fromJson(x))),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'items': List<dynamic>.from(items.map((x) => x.toJson())),
-      };
-
-  @override
-  String toString() {
-    return 'Albums(items: $items)';
-  }
-}
+/// Convert a list of items to a JSON string
+String itemsToJson(List<Item> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Item {
   String name;

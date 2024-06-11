@@ -65,9 +65,9 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:spotify_app_poc/blocs/album/album_bloc.dart';
 import 'package:spotify_app_poc/models/album/album_model.dart';
-import 'package:spotify_app_poc/repository/services.dart';
+import 'package:spotify_app_poc/repository/spotify_repository.dart';
 
-import 'album_bloc_test.mocks.dart';
+import '../search/search_artists_bloc_test.mocks.dart';
 
 @GenerateMocks([ApiService])
 void main() {
