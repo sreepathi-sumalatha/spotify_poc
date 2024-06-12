@@ -70,19 +70,20 @@ class _AlbumListState extends State<AlbumList> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SearchScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const SearchScreen()),
                   );
                 },
                 controller: _searchController,
                 decoration: InputDecoration(
                   labelText: 'Search',
                   hintText: 'Search here...',
-                  prefixIcon: Icon(Icons.search),
+                  prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(50.0),
                   ),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                  contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 12.0),
                 ),
                 textInputAction: TextInputAction.search,
               ),
@@ -126,7 +127,7 @@ class _AlbumListState extends State<AlbumList> {
                               },
                             ),
                             if (albums.length - 1 == index)
-                              CircularProgressIndicator(),
+                              const CircularProgressIndicator(),
                           ],
                         );
                       },
