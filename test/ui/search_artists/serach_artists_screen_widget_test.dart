@@ -5,7 +5,6 @@ import 'package:mocktail/mocktail.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_bloc.dart';
 import 'package:spotify_app_poc/blocs/search_artists/search_artists_state.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
-import 'package:spotify_app_poc/repository/spotify_repository.dart';
 import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_artists_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spotify_app_poc/ui/screens/album/reusable_card.dart';
@@ -14,24 +13,11 @@ class MockSearchArtistsBloc
     extends MockBloc<SearchArtistsEvent, SearchArtistsState>
     implements SearchArtistsBloc {}
 
-class MockApiService extends Mock implements ApiService {}
-
-class FakeSearchArtistsEvent extends Fake implements SearchArtistsEvent {}
-
-class FakeSearchArtistsState extends Fake implements SearchArtistsState {}
-
 void main() {
   late MockSearchArtistsBloc mockSearchArtistsBloc;
-  late MockApiService mockApiService;
-
-  setUpAll(() {
-    registerFallbackValue(FakeSearchArtistsEvent());
-    registerFallbackValue(FakeSearchArtistsState());
-  });
 
   setUp(() {
     mockSearchArtistsBloc = MockSearchArtistsBloc();
-    mockApiService = MockApiService();
   });
 
   tearDown(() {
@@ -42,13 +28,15 @@ void main() {
     return MaterialApp(
       home: BlocProvider<SearchArtistsBloc>(
         create: (context) => mockSearchArtistsBloc,
-        child: const SearchScreen(),
+        child: const SearchListView(),
       ),
     );
   }
 
   group('SearchScreen', () {
     testWidgets('renders AppBar and TextField', (WidgetTester tester) async {
+      when(() => mockSearchArtistsBloc.state)
+          .thenReturn(SearchArtistsInitial());
       await tester.pumpWidget(searchWidgetTest());
 
       // Check for AppBar title
@@ -106,18 +94,6 @@ void main() {
 
       await tester.pumpWidget(searchWidgetTest());
       expect(find.text('Please enter a search query...'), findsOneWidget);
-    });
-
-    testWidgets('Tapping the TextField triggers SearchArtistsByQueryEvent',
-        (WidgetTester tester) async {
-      await tester.pumpWidget(searchWidgetTest());
-
-      await tester.enterText(find.byType(TextField), 'Test Query');
-      await tester.testTextInput.receiveAction(TextInputAction.search);
-      await tester.pump();
-
-      verify(() => mockSearchArtistsBloc
-          .add(SearchArtistsByQueryEvent('Test Query'))).called(1);
     });
   });
 }

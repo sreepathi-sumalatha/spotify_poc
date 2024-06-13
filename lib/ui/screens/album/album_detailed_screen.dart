@@ -13,9 +13,10 @@ class AlbumDetailedScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          album.name.length > 10
-              ? '${album.name.substring(0, 10)}...'
-              : album.name,
+          album.name,
+          // album.name.length > 30
+          //     ? '${album.name.substring(0, 10)}...'
+          //     : album.name,
           style: TextStyle(color: Colors.purple),
         ),
         backgroundColor: Colors.white,
@@ -36,7 +37,7 @@ class AlbumDetailedScreen extends StatelessWidget {
                     Center(child: CircularProgressIndicator()),
                 errorWidget: (context, url, error) => Icon(Icons.error),
                 width: double.infinity,
-                height: 400,
+                height: 300,
                 fit: BoxFit.cover,
               ),
             ),

@@ -22,8 +22,8 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     on<LoadMoreArtistsEvent>(_loadMoreArtists);
   }
 
-  FutureOr<void> _searchArtistsByQuery(
-      SearchArtistsByQueryEvent event, Emitter<SearchArtistsState> emit) async {
+  FutureOr<void> _searchArtistsByQuery(SearchArtistsByQueryEvent event,
+      Emitter<SearchArtistsState> hemit) async {
     emit(SearchArtistQueryLoadingState());
     try {
       currentQuery = event.query;
@@ -45,6 +45,33 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
     }
   }
 
+  // FutureOr<void> _loadMoreArtists(
+  //     LoadMoreArtistsEvent event, Emitter<SearchArtistsState> emit) async {
+  //   if (isLoadingMore) return;
+  //   isLoadingMore = true;
+
+  //   final currentState = state;
+  //   if (currentState is SearchArtistQuerySuccessState &&
+  //       !currentState.hasReachedEnd) {
+  //     try {
+  //       final additionalArtists = await apiService.searchArtists(
+  //         query: currentQuery,
+  //         token: Constants.token,
+  //         offset: offset,
+  //         limit: limit,
+  //       );
+  //       offset += limit;
+  //       bool hasReachedEnd = additionalArtists.length < limit;
+  //       emit(SearchArtistQuerySuccessState(
+  //           currentState.artists + additionalArtists,
+  //           hasReachedEnd: hasReachedEnd));
+  //     } catch (e) {
+  //       print(e.toString());
+  //       log(e.toString());
+  //     }
+  //   }
+  //   isLoadingMore = false;
+  // }
   FutureOr<void> _loadMoreArtists(
       LoadMoreArtistsEvent event, Emitter<SearchArtistsState> emit) async {
     if (isLoadingMore) return;
@@ -63,11 +90,11 @@ class SearchArtistsBloc extends Bloc<SearchArtistsEvent, SearchArtistsState> {
         offset += limit;
         bool hasReachedEnd = additionalArtists.length < limit;
         emit(SearchArtistQuerySuccessState(
-            currentState.artists + additionalArtists,
-            hasReachedEnd: hasReachedEnd));
+          currentState.artists + additionalArtists,
+          hasReachedEnd: hasReachedEnd,
+        ));
       } catch (e) {
-        print(e.toString());
-        log(e.toString());
+        emit(SearchArtistQueryErrorState(error: e.toString()));
       }
     }
     isLoadingMore = false;

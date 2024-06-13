@@ -68,4 +68,65 @@ void main() {
       ],
     );
   });
+  // group('when LoadMoreArtistsEvent is added: ', () {
+
+  //   blocTest<SearchArtistsBloc, SearchArtistsState>(
+  //     'does not emit new states if already loading more artists',
+  //     build: () => bloc,
+  //     setUp: () {
+  //       bloc.isLoadingMore = true;
+  //     },
+  //     act: (bloc) => bloc.add(LoadMoreArtistsEvent()),
+  //     expect: () => [],
+  //   );
+
+  //   blocTest<SearchArtistsBloc, SearchArtistsState>(
+  //     'emits SearchArtistQueryErrorState if repo call fails while loading more data',
+  //     build: () {
+  //       when(mockRepo.searchArtists(
+  //         query: anyNamed('query'),
+  //         token: anyNamed('token'),
+  //         offset: anyNamed('offset'),
+  //         limit: anyNamed('limit'),
+  //       )).thenThrow(Exception('error'));
+  //       bloc.emit(SearchArtistQuerySuccessState(mockResponse, hasReachedEnd: false)); // Preload initial data
+  //       return bloc;
+  //     },
+  //     act: (bloc) => bloc.add(LoadMoreArtistsEvent()),
+  //     expect: () => [
+  //       isA<SearchArtistQuerySuccessState>(), // The state remains unchanged since the error is caught but not emitted
+  //     ],
+  //   );
+  // });
+  group('when LoadMoreArtistsEvent is added: ', () {
+    blocTest<SearchArtistsBloc, SearchArtistsState>(
+      'does not emit new states if already loading more artists',
+      build: () => bloc,
+      setUp: () {
+        bloc.isLoadingMore = true;
+      },
+      act: (bloc) => bloc.add(LoadMoreArtistsEvent()),
+      expect: () => [],
+    );
+
+    blocTest<SearchArtistsBloc, SearchArtistsState>(
+      'emits SearchArtistQueryErrorState if repo call fails while loading more data',
+      build: () {
+        when(mockRepo.searchArtists(
+          query: anyNamed('query'),
+          token: anyNamed('token'),
+          offset: anyNamed('offset'),
+          limit: anyNamed('limit'),
+        )).thenThrow(Exception('error'));
+        bloc.emit(SearchArtistQuerySuccessState(mockResponse,
+            hasReachedEnd: false)); // Preload initial data
+        return bloc;
+      },
+      act: (bloc) => bloc.add(LoadMoreArtistsEvent()),
+      expect: () => [
+        isA<SearchArtistQueryErrorState>()
+            .having((state) => state.error, 'error', 'Exception: error'),
+      ],
+    );
+  });
 }

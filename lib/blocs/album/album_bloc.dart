@@ -33,13 +33,26 @@ class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
     }
   }
 
+  // FutureOr<void> loadMoreAlbumEvent(
+  //     LoadMoreAlbumEvent event, Emitter<AlbumState> emit) async {
+  //   var oldData = (state as AlbumSuccessesState).albumDataList;
+  //   final newData = await apiService.albumList();
+  //   oldData!.addAll(newData);
+  //   //other way to add the listviews using spread operator
+  //   //  var otherList = [...oldData, ...newData];
+  //   emit(AlbumSuccessesState(albumDataList: oldData));
+  // }
   FutureOr<void> loadMoreAlbumEvent(
       LoadMoreAlbumEvent event, Emitter<AlbumState> emit) async {
-    var oldData = (state as AlbumSuccessesState).albumDataList;
-    final newData = await apiService.albumList();
-    oldData!.addAll(newData);
-    //other way to add the listviews using spread operator
-    //  var otherList = [...oldData, ...newData];
-    emit(AlbumSuccessesState(albumDataList: oldData));
+    try {
+      var oldData = (state as AlbumSuccessesState).albumDataList;
+      final newData = await apiService.albumList();
+      oldData!.addAll(newData);
+      // Other way to add the listviews using spread operator
+      // var otherList = [...oldData, ...newData];
+      emit(AlbumSuccessesState(albumDataList: oldData));
+    } catch (error) {
+      emit(AlbumErrorState(error: error.toString()));
+    }
   }
 }

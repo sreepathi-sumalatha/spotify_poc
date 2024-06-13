@@ -14,24 +14,11 @@ import 'package:spotify_app_poc/ui/screens/search_artists_ui/search_artists_scre
 class MockAlbumBloc extends MockBloc<AlbumEvent, AlbumState>
     implements AlbumBloc {}
 
-class MockApiService extends Mock implements ApiService {}
-
-class FakeAlbumEvent extends Fake implements AlbumEvent {}
-
-class FakeAlbumState extends Fake implements AlbumState {}
-
 void main() {
   late MockAlbumBloc mockAlbumBloc;
-  late MockApiService mockApiService;
-
-  setUpAll(() {
-    registerFallbackValue(FakeAlbumEvent());
-    registerFallbackValue(FakeAlbumState());
-  });
 
   setUp(() {
     mockAlbumBloc = MockAlbumBloc();
-    mockApiService = MockApiService();
   });
 
   tearDown(() {
@@ -42,13 +29,14 @@ void main() {
     return MaterialApp(
       home: BlocProvider<AlbumBloc>(
         create: (context) => mockAlbumBloc,
-        child: const AlbumList(),
+        child: const AlbumListView(),
       ),
     );
   }
 
   testWidgets('AlbumList has AppBar and TextField',
       (WidgetTester tester) async {
+    when(() => mockAlbumBloc.state).thenReturn(AlbumInitial());
     await tester.pumpWidget(albumWidgetzTest());
 
     // Check for AppBar title
@@ -60,6 +48,7 @@ void main() {
 
   testWidgets('Tapping the TextField navigates to SearchScreen',
       (WidgetTester tester) async {
+    when(() => mockAlbumBloc.state).thenReturn(AlbumInitial());
     await tester.pumpWidget(albumWidgetzTest());
 
     // Tap the TextField
@@ -67,9 +56,12 @@ void main() {
     await tester.pumpAndSettle();
 
     // Check if SearchScreen is pushed onto the Navigator stack
-    expect(find.byType(SearchScreen), findsOneWidget);
+    expect(find.byType(SearchListScreen), findsOneWidget);
   });
-
+  testWidgets('AlbumList Screen', (tester) async {
+    await tester.pumpWidget(const MaterialApp(home: AlbumListScreen()));
+    expect(find.byType(AlbumListView), findsOneWidget);
+  });
   group('AlbumList success and failure test case senarios', () {
     testWidgets(
         'renders CircularProgressIndicator when state is AlbumLoadingState',
@@ -102,12 +94,12 @@ void main() {
       expect(find.byType(ReusableCard), findsNWidgets(2));
     });
 
-    testWidgets('renders error message when state is AlbumErrorState',
+    testWidgets('renders error message  when state is AlbumErrorState',
         (tester) async {
       when(() => mockAlbumBloc.state).thenReturn(AlbumErrorState());
 
       await tester.pumpWidget(albumWidgetzTest());
-      expect(find.text('Error loading albums'), findsOneWidget);
+      expect(find.text('something went wrong'), findsOneWidget);
     });
   });
 }

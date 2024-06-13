@@ -5,8 +5,8 @@ List<Item> itemsFromJson(String str) =>
     List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
 
 /// Convert a list of items to a JSON string
-String itemsToJson(List<Item> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+// String itemsToJson(List<Item> data) =>
+//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class Item {
   String name;
@@ -32,10 +32,10 @@ class Item {
         'images': List<dynamic>.from(images.map((x) => x.toJson())),
       };
 
-  @override
-  String toString() {
-    return 'Item(name: $name, artists: $artists, images: $images)';
-  }
+  // @override
+  // String toString() {
+  //   return 'Item(name: $name, artists: $artists, images: $images)';
+  // }
 }
 
 class Artist {
@@ -53,10 +53,10 @@ class Artist {
         'name': name,
       };
 
-  @override
-  String toString() {
-    return 'Artist(name: $name)';
-  }
+  // @override
+  // String toString() {
+  //   return 'Artist(name: $name)';
+  // }
 }
 
 class Image {
@@ -74,6 +74,6 @@ class Image {
         'url': url,
       };
 
-  @override
-  String toString() => 'Image(url: $url)';
+  // @override
+  // String toString() => 'Image(url: $url)';
 }

@@ -126,4 +126,20 @@ void main() {
       ],
     );
   });
+
+  blocTest<AlbumBloc, AlbumState>(
+    'emits AlbumErrorState if repo call fails while loading more data',
+    build: () {
+      when(mockRepo.albumList())
+          .thenThrow(Exception('Error at fetching more albums'));
+      albumBloc.emit(AlbumSuccessesState(
+          albumDataList: mockAlbumResponse)); // Preload initial data
+      return albumBloc;
+    },
+    act: (bloc) => bloc.add(LoadMoreAlbumEvent()),
+    expect: () => [
+      isA<AlbumErrorState>().having((state) => state.error, 'error',
+          'Exception: Error at fetching more albums'),
+    ],
+  );
 }

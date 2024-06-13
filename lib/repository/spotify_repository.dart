@@ -79,7 +79,7 @@ class ApiService {
     throw Exception('${response.statusCode}');
   }
 
-  Future<List<Item>> albumList({int limit = 8, int offset = 0}) async {
+  Future<List<Item>> albumList({int limit = 10, int offset = 0}) async {
     try {
       final url = Uri.parse(
         '${ApiEndpoints.baseUrl}${ApiEndpoints.newReleases}?limit=$limit&offset=$offset',

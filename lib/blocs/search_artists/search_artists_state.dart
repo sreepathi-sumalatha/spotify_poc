@@ -13,4 +13,7 @@ class SearchArtistQuerySuccessState extends SearchArtistsState {
 
 class SearchArtistQueryLoadingState extends SearchArtistsState {}
 
-class SearchArtistQueryErrorState extends SearchArtistsState {}
+class SearchArtistQueryErrorState extends SearchArtistsState {
+  final String? error;
+  SearchArtistQueryErrorState({this.error});
+}
