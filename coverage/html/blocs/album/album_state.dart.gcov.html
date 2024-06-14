@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2024-06-13 14:15:21</td>
+            <td class="headerValue">2024-06-14 15:32:25</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -69,16 +69,17 @@
 <span id="L7"><span class="lineNum">       7</span>              : final class AlbumLoadingState extends AlbumState {}</span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
 <span id="L9"><span class="lineNum">       9</span>              : final class AlbumSuccessesState extends AlbumState {</span>
-<span id="L10"><span class="lineNum">      10</span>              :   List&lt;Item&gt;? albumDataList;</span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC tlaBgGNC">           2 :   AlbumSuccessesState({this.albumDataList});</span></span>
-<span id="L12"><span class="lineNum">      12</span>              : }</span>
-<span id="L13"><span class="lineNum">      13</span>              : </span>
-<span id="L14"><span class="lineNum">      14</span>              : final class AlbumErrorState extends AlbumState {</span>
-<span id="L15"><span class="lineNum">      15</span>              :   final String? error;</span>
-<span id="L16"><span class="lineNum">      16</span> <span class="tlaGNC">           2 :   AlbumErrorState({this.error});</span></span>
-<span id="L17"><span class="lineNum">      17</span>              : }</span>
-<span id="L18"><span class="lineNum">      18</span>              : </span>
-<span id="L19"><span class="lineNum">      19</span>              : final class AlbumLoadingMoreState extends AlbumState {}</span>
+<span id="L10"><span class="lineNum">      10</span>              :   final List&lt;Item&gt;? albumDataList;</span>
+<span id="L11"><span class="lineNum">      11</span>              :   final bool hasReachedEnd;</span>
+<span id="L12"><span class="lineNum">      12</span> <span class="tlaGNC tlaBgGNC">           2 :   AlbumSuccessesState({this.albumDataList, this.hasReachedEnd = false});</span></span>
+<span id="L13"><span class="lineNum">      13</span>              : }</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              : final class AlbumErrorState extends AlbumState {</span>
+<span id="L16"><span class="lineNum">      16</span>              :   final String? error;</span>
+<span id="L17"><span class="lineNum">      17</span> <span class="tlaGNC">           2 :   AlbumErrorState({this.error});</span></span>
+<span id="L18"><span class="lineNum">      18</span>              : }</span>
+<span id="L19"><span class="lineNum">      19</span>              : </span>
+<span id="L20"><span class="lineNum">      20</span>              : final class AlbumLoadingMoreState extends AlbumState {}</span>
         </pre>
               </td>
             </tr>

@@ -86,8 +86,8 @@ void main() {
           token: anyNamed('token'),
           paginationParams: anyNamed('paginationParams'),
         )).thenThrow(Exception('error'));
-        bloc.emit(SearchArtistQuerySuccessState(mockResponse,
-            hasReachedEnd: false)); // Preload initial data
+        bloc.emit(
+            SearchArtistQuerySuccessState(mockResponse, hasReachedEnd: false));
         return bloc;
       },
       act: (bloc) => bloc.add(LoadMoreArtistsEvent()),

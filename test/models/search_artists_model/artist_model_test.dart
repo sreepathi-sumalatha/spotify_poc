@@ -83,7 +83,7 @@ void main() {
     });
 
     test('artistModelFromJson should return a list of ArtistModel objects', () {
-      final jsonString = '''
+      const jsonString = '''
       [
         {"name": "Artist Name 1", "popularity": 100, "image": "https://example.com/image1.jpg"},
         {"name": "Artist Name 2", "popularity": 80, "image": "https://example.com/image2.jpg"}

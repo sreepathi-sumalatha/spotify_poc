@@ -29,12 +29,12 @@ void main() {
 
   test('Item.fromJson', () {
     const jsonMap = {
-      "name": "Item1",
-      "artists": [
-        {"name": "Artist1"}
+      'name': 'Item1',
+      'artists': [
+        {'name': 'Artist1'}
       ],
-      "images": [
-        {"url": "http://image1.com"}
+      'images': [
+        {'url': 'http://image1.com'}
       ]
     };
 

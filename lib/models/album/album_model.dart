@@ -4,10 +4,6 @@ import 'dart:convert';
 List<Item> itemsFromJson(String str) =>
     List<Item>.from(json.decode(str).map((x) => Item.fromJson(x)));
 
-/// Convert a list of items to a JSON string
-// String itemsToJson(List<Item> data) =>
-//     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
 class Item {
   String name;
   List<Artist> artists;
@@ -31,11 +27,6 @@ class Item {
         'artists': List<dynamic>.from(artists.map((x) => x.toJson())),
         'images': List<dynamic>.from(images.map((x) => x.toJson())),
       };
-
-  // @override
-  // String toString() {
-  //   return 'Item(name: $name, artists: $artists, images: $images)';
-  // }
 }
 
 class Artist {
@@ -52,11 +43,6 @@ class Artist {
   Map<String, dynamic> toJson() => {
         'name': name,
       };
-
-  // @override
-  // String toString() {
-  //   return 'Artist(name: $name)';
-  // }
 }
 
 class Image {
@@ -73,7 +59,4 @@ class Image {
   Map<String, dynamic> toJson() => {
         'url': url,
       };
-
-  // @override
-  // String toString() => 'Image(url: $url)';
 }
