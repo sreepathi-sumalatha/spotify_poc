@@ -7,8 +7,9 @@ final class AlbumInitial extends AlbumState {}
 final class AlbumLoadingState extends AlbumState {}
 
 final class AlbumSuccessesState extends AlbumState {
-  List<Item>? albumDataList;
-  AlbumSuccessesState({this.albumDataList});
+  final List<Item>? albumDataList;
+  final bool hasReachedEnd;
+  AlbumSuccessesState({this.albumDataList, this.hasReachedEnd = false});
 }
 
 final class AlbumErrorState extends AlbumState {

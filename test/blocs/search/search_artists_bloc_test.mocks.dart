@@ -7,9 +7,10 @@ import 'dart:async' as _i4;
 
 import 'package:http/http.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:spotify_app_poc/models/album/album_model.dart' as _i6;
+import 'package:spotify_app_poc/models/album/album_model.dart' as _i7;
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart'
     as _i5;
+import 'package:spotify_app_poc/repository/pagination_params.dart' as _i6;
 import 'package:spotify_app_poc/repository/spotify_repository.dart' as _i3;
 
 // ignore_for_file: type=lint
@@ -56,8 +57,7 @@ class MockApiService extends _i1.Mock implements _i3.ApiService {
   _i4.Future<List<_i5.ArtistModel>> searchArtists({
     required String? query,
     required String? token,
-    int? offset = 0,
-    int? limit = 20,
+    _i6.PaginationParams? paginationParams = const _i6.PaginationParams(),
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -66,8 +66,7 @@ class MockApiService extends _i1.Mock implements _i3.ApiService {
           {
             #query: query,
             #token: token,
-            #offset: offset,
-            #limit: limit,
+            #paginationParams: paginationParams,
           },
         ),
         returnValue:
@@ -75,19 +74,15 @@ class MockApiService extends _i1.Mock implements _i3.ApiService {
       ) as _i4.Future<List<_i5.ArtistModel>>);
 
   @override
-  _i4.Future<List<_i6.Item>> albumList({
-    int? limit = 8,
-    int? offset = 0,
-  }) =>
+  _i4.Future<List<_i7.Item>> albumList(
+          {_i6.PaginationParams? paginationParams =
+              const _i6.PaginationParams()}) =>
       (super.noSuchMethod(
         Invocation.method(
           #albumList,
           [],
-          {
-            #limit: limit,
-            #offset: offset,
-          },
+          {#paginationParams: paginationParams},
         ),
-        returnValue: _i4.Future<List<_i6.Item>>.value(<_i6.Item>[]),
-      ) as _i4.Future<List<_i6.Item>>);
+        returnValue: _i4.Future<List<_i7.Item>>.value(<_i7.Item>[]),
+      ) as _i4.Future<List<_i7.Item>>);
 }

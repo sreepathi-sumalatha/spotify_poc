@@ -18,7 +18,7 @@ void main() {
   setUp(() {
     bloc = SearchArtistsBloc(mockRepo);
   });
-// this test senarios is optinal for the  empty senarios.
+
   blocTest<SearchArtistsBloc, SearchArtistsState>(
     'emits [] when nothing is added',
     build: () => bloc,
@@ -35,8 +35,7 @@ void main() {
       when(mockRepo.searchArtists(
         query: anyNamed('query'),
         token: anyNamed('token'),
-        offset: anyNamed('offset'),
-        limit: anyNamed('limit'),
+        paginationParams: anyNamed('paginationParams'),
       )).thenAnswer((_) async => mockResponse);
     });
 
@@ -57,8 +56,7 @@ void main() {
         when(mockRepo.searchArtists(
           query: anyNamed('query'),
           token: anyNamed('token'),
-          offset: anyNamed('offset'),
-          limit: anyNamed('limit'),
+          paginationParams: anyNamed('paginationParams'),
         )).thenThrow(Exception('error'));
       },
       act: (bloc) => bloc.add(SearchArtistsByQueryEvent('query')),
@@ -68,36 +66,7 @@ void main() {
       ],
     );
   });
-  // group('when LoadMoreArtistsEvent is added: ', () {
 
-  //   blocTest<SearchArtistsBloc, SearchArtistsState>(
-  //     'does not emit new states if already loading more artists',
-  //     build: () => bloc,
-  //     setUp: () {
-  //       bloc.isLoadingMore = true;
-  //     },
-  //     act: (bloc) => bloc.add(LoadMoreArtistsEvent()),
-  //     expect: () => [],
-  //   );
-
-  //   blocTest<SearchArtistsBloc, SearchArtistsState>(
-  //     'emits SearchArtistQueryErrorState if repo call fails while loading more data',
-  //     build: () {
-  //       when(mockRepo.searchArtists(
-  //         query: anyNamed('query'),
-  //         token: anyNamed('token'),
-  //         offset: anyNamed('offset'),
-  //         limit: anyNamed('limit'),
-  //       )).thenThrow(Exception('error'));
-  //       bloc.emit(SearchArtistQuerySuccessState(mockResponse, hasReachedEnd: false)); // Preload initial data
-  //       return bloc;
-  //     },
-  //     act: (bloc) => bloc.add(LoadMoreArtistsEvent()),
-  //     expect: () => [
-  //       isA<SearchArtistQuerySuccessState>(), // The state remains unchanged since the error is caught but not emitted
-  //     ],
-  //   );
-  // });
   group('when LoadMoreArtistsEvent is added: ', () {
     blocTest<SearchArtistsBloc, SearchArtistsState>(
       'does not emit new states if already loading more artists',
@@ -115,8 +84,7 @@ void main() {
         when(mockRepo.searchArtists(
           query: anyNamed('query'),
           token: anyNamed('token'),
-          offset: anyNamed('offset'),
-          limit: anyNamed('limit'),
+          paginationParams: anyNamed('paginationParams'),
         )).thenThrow(Exception('error'));
         bloc.emit(SearchArtistQuerySuccessState(mockResponse,
             hasReachedEnd: false)); // Preload initial data

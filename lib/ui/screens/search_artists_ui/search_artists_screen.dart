@@ -53,6 +53,13 @@ class _SearchListViewState extends State<SearchListView> {
     });
   }
 
+  void _checkIfScrollable() {
+    // Check if the ScrollController has scrollable extent
+    if (!(_controller.position.maxScrollExtent > 0)) {
+      BlocProvider.of<SearchArtistsBloc>(context).add(LoadMoreArtistsEvent());
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -104,6 +111,9 @@ class _SearchListViewState extends State<SearchListView> {
                   if (state is SearchArtistQueryLoadingState) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is SearchArtistQuerySuccessState) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _checkIfScrollable();
+                    });
                     return ListView.builder(
                       controller: _controller,
                       itemCount: state.hasReachedEnd

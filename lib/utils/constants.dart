@@ -1,4 +1,4 @@
 abstract class Constants {
   static const token =
-      'BQCl_3iflMNTgAeR0pzIriOv3ZS5WO7TsAau1i35lD7X17kmVRJ30NcNWDtGYPuSq9Yo4kT_vodcNqBHh_KLWrUwXvRWK33aKtz64ZQ4B0ai0nV7PVY';
+      'BQDNQfib7QvxtNLCfadFB9LhcPHFgHB-59NWxIPgv4qFg_QONTzLRJ70lkMbn30931qlM_oXD1TfEj3lHfx7uMt3-KzP8oB0QlCiUjSrdfDwQNq6Jew';
 }
