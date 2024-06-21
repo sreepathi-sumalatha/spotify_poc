@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:spotify_app_poc/models/album/album_model.dart';
 import 'package:spotify_app_poc/models/search_artists_model/artist_model.dart';
@@ -65,10 +66,32 @@ class ApiService {
         return items;
       } else if (response.statusCode == 400) {
         throw Exception('Data Not Found');
+      } else if (response.statusCode == 401) {
+        await getTokenApi();
+        return albumList(paginationParams: paginationParams);
       }
     } catch (e) {
       print('Unable to load the data due to :$e');
     }
     throw Exception('error');
+  }
+
+  Future<void> getTokenApi() async {
+    http.Response response = await client.post(
+        Uri.parse("https://accounts.spotify.com/api/token"),
+        body: ({
+          'grant_type': 'client_credentials',
+          'client_id': '5b369a32d0884919aba94d6c990d70a5',
+          'client_secret': '362b6e1331f64089a68bb03f037ec427'
+        }),
+        //"{"error":"unsupported_grant_type","error_description":"grant_type parameter is missing"}"
+
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'});
+    if (response.statusCode == 200) {
+      var result = jsonDecode(response.body);
+      var accessToken = result['access_token'];
+      print(accessToken);
+      Constants.token = accessToken;
+    }
   }
 }
